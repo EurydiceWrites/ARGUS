@@ -1,30 +1,27 @@
 # CURRENT — Argus
 
-**Last updated:** 2026-05-12 (H-003 opened; Phase 2 technical survey in progress)
-**Active handoff:** [handoffs/H-003_phase2_survey.md](handoffs/H-003_phase2_survey.md)
+**Last updated:** 2026-05-12 (H-003 closed; Phase 2 technical survey complete)
+**Active handoff:** none — Phase 2 technical survey done; choose H-004 (external-taxonomy survey) or H-005 (war.gov page parse) next
 
 ---
 
 ## ACTIVE WORK — Read this section first
 
-**Where we are:** Phase 1 (archive) is complete. Tranche 1 fully archived to media buckets with SHA-256 provenance per item in `data/manifest.csv` (157 rows: 115 PDFs + 14 images + 28 videos). Archiver script (`src/phase1_archive.py` v1.0.0) is idempotent. Pre-extraction inventory counts were inflated by `__MACOSX` Mac metadata; real Tranche 1 is 157 items, not the 287 originally estimated.
+**Where we are:** Phase 2 (technical survey) is complete. The manifest carries per-item metadata for all 157 Tranche 1 items: PDF page counts, image dimensions, video duration/resolution. Filename-pattern analysis surfaced a major finding — **DOW (Dept. of War), DOS (Dept. of State), and NASA filenames natively encode date + location + item-type** for ~80 of the 115 PDFs. The first-pass archiver only caught the 28 `DOD_` videos; the rest of the agency tagging was hidden in plain sight. FBI case files and DOD videos carry no such encoding — only IDs.
 
-**Phase status:** Phase 0 (scaffold) ✓. Phase 1 (archive) ✓. Phase 2 (survey) not yet started.
+Full survey notes at `notebooks/survey_phase2.md`. Distributions, clusters, observations, open questions for the researcher.
 
-**Concrete resume path:**
+**Phase status:** Phase 0 ✓. Phase 1 ✓. Phase 2 ✓ (technical only — external-literature survey deferred). Phase 3 (taxonomy design) requires the open questions resolved first.
 
-1. Open **H-003** for Phase 2 (survey). Apply Goal Grounding Protocol.
-2. Inventory the archive in detail: file size distribution, PDF page-counts, image dimensions, video durations, filename patterns.
-3. Note what metadata war.gov provides vs. what is absent.
-4. Survey existing UAP classification systems for comparison (Hynek, Vallée, AARO, GEIPAN, SCU). Notes go in `notebooks/`.
-5. **Do not** start Phase 3 (taxonomy design) until survey is complete and reviewed.
+**Concrete resume path (multiple paths, pick one):**
 
-**Open items carrying forward:**
+1. **H-004 — External-taxonomy survey.** Hynek, Vallée, AARO, GEIPAN, SCU. Compare what other systems classify on. Output: `notebooks/existing_taxonomies.md`.
+2. **H-005 — War.gov page parse.** Fetch and parse `https://www.war.gov/ufo/pursue-initiative/` for source-page metadata (captions, agency attribution, direct download URLs). Refines `source_url` in the manifest and surfaces metadata not present in filenames.
+3. **H-006 — Filename-metadata extractor.** Lightweight script that regexes DOW / DOS / NASA filename patterns into structured columns on the manifest (agency, country, date, item_type). Quick win that immediately enriches ~80 PDFs.
 
-- `source_url` for every manifest row is currently the PURSUE page URL, not the direct download URL. Refine in a later handoff once we fetch and parse the war.gov page.
-- Agency derivation is filename-prefix only (catches `DOD_*` videos). Most PDFs/images currently `agency=unknown`. Refinement when we have time to map filename conventions to agencies.
+The open question raised in the H-003 close — *"What's the right unit of classification: file, incident, or scene?"* — should be settled before Phase 3 starts.
 
-**Do not jump ahead** to taxonomy design (Phase 3) or schema (Phase 4). The build order is sacred — see `CLAUDE.md` and `FUTURE_WORK.md`.
+**Do not jump ahead** to taxonomy design (Phase 3) or schema (Phase 4) until the open question is settled.
 
 ---
 
@@ -40,7 +37,7 @@ The **Goal Grounding Protocol** is active for this project. Before any non-trivi
 
 | ID | Date | Status | Summary |
 |---|---|---|---|
-| **[H-003](handoffs/H-003_phase2_survey.md)** | **2026-05-12** | **Active — Phase 2 technical survey. Enrich manifest with per-item metadata; analyze filename patterns; write notebooks/survey_phase2.md.** |
+| **[H-003](handoffs/H-003_phase2_survey.md)** | **2026-05-12** | **Closed — Phase 2 technical survey. Manifest enriched (page counts / dimensions / durations) for all 157 items. Filename analysis revealed 6+ agency conventions; ~80 PDFs have machine-extractable date+location+item-type from filenames.** |
 | [H-002](handoffs/H-002_phase1_archiver.md) | 2026-05-12 | Closed — Phase 1 archiver. 157 items archived from Tranche 1 (115 PDFs + 14 images + 28 videos). Idempotent. Manifest at `data/manifest.csv`. |
 | [H-001](handoffs/H-001_project_scaffold.md) | 2026-05-12 | Closed — Project scaffold built. |
 

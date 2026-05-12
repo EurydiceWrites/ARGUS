@@ -1,7 +1,7 @@
 # CURRENT — Argus
 
-**Last updated:** 2026-05-12 (H-002 closed; Phase 1 complete; Phase 2 next)
-**Active handoff:** none — next opens with Phase 2 (survey)
+**Last updated:** 2026-05-12 (H-003 opened; Phase 2 technical survey in progress)
+**Active handoff:** [handoffs/H-003_phase2_survey.md](handoffs/H-003_phase2_survey.md)
 
 ---
 
@@ -40,7 +40,8 @@ The **Goal Grounding Protocol** is active for this project. Before any non-trivi
 
 | ID | Date | Status | Summary |
 |---|---|---|---|
-| **[H-002](handoffs/H-002_phase1_archiver.md)** | **2026-05-12** | **Closed — Phase 1 archiver. `src/phase1_archive.py` v1.0.0. 157 items archived from Tranche 1 (115 PDFs + 14 images + 28 videos). Idempotent. Manifest at `data/manifest.csv`.** |
+| **[H-003](handoffs/H-003_phase2_survey.md)** | **2026-05-12** | **Active — Phase 2 technical survey. Enrich manifest with per-item metadata; analyze filename patterns; write notebooks/survey_phase2.md.** |
+| [H-002](handoffs/H-002_phase1_archiver.md) | 2026-05-12 | Closed — Phase 1 archiver. 157 items archived from Tranche 1 (115 PDFs + 14 images + 28 videos). Idempotent. Manifest at `data/manifest.csv`. |
 | [H-001](handoffs/H-001_project_scaffold.md) | 2026-05-12 | Closed — Project scaffold built. |
 
 ---

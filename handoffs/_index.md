@@ -10,7 +10,7 @@ This index is required reading at session start (per [CLAUDE.md](../CLAUDE.md)) 
 
 | ID | Date | One-line summary |
 |---|---|---|
-| *(none — H-002 closed; next opens with Phase 2 survey)* | | |
+| **[H-003](H-003_phase2_survey.md)** | **2026-05-12** | **Phase 2 technical survey. Enrich data/manifest.csv with per-item metadata (PDF page counts, image dimensions, video duration/resolution). Analyze filename patterns. Write structured survey notes to notebooks/survey_phase2.md. No taxonomy design. External-literature survey deferred to H-004.** |
 
 ## Closed
 

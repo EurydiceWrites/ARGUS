@@ -14,10 +14,22 @@ This is not the Anomaly Taxonomy / Mack-Bullard UFO Matrix. That project process
 
 Separate repos. Separate databases. Separate pipelines. May eventually cross-reference.
 
+## Start here
+
+| If you want... | Read this |
+|---|---|
+| Where work is right now | [CURRENT.md](CURRENT.md) |
+| The big-picture framing | [PROJECT_OVERVIEW.md](PROJECT_OVERVIEW.md) |
+| The phase-by-phase build plan | [FUTURE_WORK.md](FUTURE_WORK.md) |
+| Working protocol for any Claude / Cowork session | [CLAUDE.md](CLAUDE.md) |
+| Standing operational rules | [docs/WORKFLOW_PROTOCOL.md](docs/WORKFLOW_PROTOCOL.md) |
+| Vocabulary (tranche, item, manifest, etc.) | [docs/NOMENCLATURE.md](docs/NOMENCLATURE.md) |
+| Newest-first handoff chronology | [handoffs/_index.md](handoffs/_index.md) |
+
 ## Build order
 
 1. **Archive** — systematically download and preserve everything at war.gov/UFO. Re-runnable for future tranches.
-2. **Survey** — catalog what's in the tranche. Note material types, metadata, patterns.
+2. **Survey** — catalog what's in the archive. Note material types, metadata, patterns.
 3. **Design the taxonomy** — classification categories emerge from the data, not imposed in advance.
 4. **Schema** — SQLite database designed around the taxonomy.
 5. **Index and classify** — apply the taxonomy. Color-coded visualization layer for analysis.
@@ -26,6 +38,12 @@ Separate repos. Separate databases. Separate pipelines. May eventually cross-ref
 
 ```
 argus/
+├── CLAUDE.md                # Working protocol for Claude sessions
+├── CURRENT.md               # Lean "where am I now" pointer
+├── PROJECT_OVERVIEW.md      # Substantive framing
+├── FUTURE_WORK.md           # Phase plan + open questions
+├── README.md                # This file
+├── LICENSE
 ├── data/
 │   └── raw/                 # Downloaded files (gitignored; tracked via manifest)
 │       ├── video/           # FLIR footage, sensor video, declassified video
@@ -34,7 +52,13 @@ argus/
 ├── src/                     # Pipeline code (archiver, indexer, classifier)
 ├── taxonomy/                # Classification system (designed in Phase 3)
 ├── db/                      # Schema + migrations
-└── notebooks/               # Survey and exploration work
+├── notebooks/               # Survey and exploration work
+├── docs/
+│   ├── WORKFLOW_PROTOCOL.md # Standing rules
+│   └── NOMENCLATURE.md      # Vocabulary
+└── handoffs/
+    ├── _index.md            # Newest-first chronology
+    └── H-###_*.md           # Per-handoff source of truth
 ```
 
 ## Methodological principles

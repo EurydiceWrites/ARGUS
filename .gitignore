@@ -1,0 +1,37 @@
+# Raw downloaded files from war.gov/UFO and other sources
+# These are large, re-downloadable, and tracked separately via manifest
+data/raw/
+data/cache/
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+venv/
+env/
+.venv/
+*.egg-info/
+.pytest_cache/
+
+# Environment / secrets
+.env
+.env.local
+*.key
+
+# IDE / OS
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+*.swp
+
+# Logs
+*.log
+logs/
+
+# Local SQLite databases (the schema lives in code; the DB itself doesn't)
+*.db
+*.sqlite
+*.sqlite3

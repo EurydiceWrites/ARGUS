@@ -27,11 +27,14 @@ Separate repos. Separate databases. Separate pipelines. May eventually cross-ref
 ```
 argus/
 ├── data/
-│   └── raw/          # Downloaded files (gitignored; tracked via manifest)
-├── src/              # Pipeline code
-├── taxonomy/         # Classification system (designed in Phase 3)
-├── db/               # Schema + migrations
-└── notebooks/        # Survey and exploration work
+│   └── raw/                 # Downloaded files (gitignored; tracked via manifest)
+│       ├── video/           # FLIR footage, sensor video, declassified video
+│       ├── images/          # Photographs (Apollo, aerial, etc.), still frames
+│       └── text/            # PDFs, transcripts, reports, mission documents
+├── src/                     # Pipeline code (archiver, indexer, classifier)
+├── taxonomy/                # Classification system (designed in Phase 3)
+├── db/                      # Schema + migrations
+└── notebooks/               # Survey and exploration work
 ```
 
 ## Methodological principles

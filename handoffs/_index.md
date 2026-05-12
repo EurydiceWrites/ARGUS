@@ -10,7 +10,7 @@ This index is required reading at session start (per [CLAUDE.md](../CLAUDE.md)) 
 
 | ID | Date | One-line summary |
 |---|---|---|
-| *(none — H-001 closed; next handoff opens with Phase 1 archiver)* | | |
+| **[H-002](H-002_phase1_archiver.md)** | **2026-05-12** | **Phase 1 archiver. Extract Release_1.zip + uapvideos.zip from data/raw/, route to video/images/text buckets, SHA-256 every item, write tracked manifest at data/manifest.csv. Idempotent. Cataloging Tranche_1 (286 items from ZIPs) + Tranche_0_manual (1 pre-existing PDF). source_url defaults to PURSUE page URL; direct download URLs deferred to later handoff.** |
 
 ## Closed
 

@@ -1,22 +1,22 @@
 # CURRENT — Argus
 
-**Last updated:** 2026-05-12 (project scaffold complete)
-**Active handoff:** [handoffs/H-001_project_scaffold.md](handoffs/H-001_project_scaffold.md) — closed; next handoff opens with Phase 1
+**Last updated:** 2026-05-12 (H-002 opened; Phase 1 archiver in progress)
+**Active handoff:** [handoffs/H-002_phase1_archiver.md](handoffs/H-002_phase1_archiver.md)
 
 ---
 
 ## ACTIVE WORK — Read this section first
 
-**Where we are:** Project initialized. Repo connected to GitHub (`EurydiceWrites/ARGUS`). Directory structure built. Working protocol, project overview, workflow rules, nomenclature, and forward roadmap all on disk. One manually-downloaded PURSUE PDF sits in `data/raw/text/` awaiting the proper archiver. The researcher is currently bulk-loading the rest of the manual downloads into `data/raw/video/`, `data/raw/images/`, `data/raw/text/`.
+**Where we are:** Phase 0 scaffold closed. Tranche 1 of the PURSUE release (war.gov 2026-05-08) is on disk as two ZIPs in `data/raw/`: `Release_1.zip` (2.49 GB, 261 entries — 230 PDFs + 28 images + Mac junk) and `uapvideos.zip` (1.33 GB, 28 MP4s). H-002 is the archiver that extracts these to media buckets, hashes everything, and writes a tracked manifest at `data/manifest.csv`.
 
-**Phase status:** Phase 0 (scaffold) complete. Phase 1 (archive) not yet started.
+**Phase status:** Phase 1 (archive) in progress.
 
-**Concrete resume path (next session):**
+**Concrete resume path:**
 
-1. Confirm the researcher has finished bulk-loading manual downloads into `data/raw/`.
-2. Run an inventory script: count files per media-type bucket, size, formats. Surface what's there before designing anything.
-3. Fetch `war.gov/UFO` and inspect what's published — URL structure, file types, tranche organization, whether there's a manifest.
-4. Open H-002 for the Phase 1 archiver design. Apply the Goal Grounding Protocol before writing code.
+1. H-002 is mid-execution. Goal grounding confirmed; handoff doc committed; archiver code to be written next.
+2. Run `src/phase1_archive.py` against `data/raw/Release_1.zip` and `data/raw/uapvideos.zip`.
+3. Verify against H-002 acceptance criteria. Re-run for idempotency check.
+4. Close H-002 with report-back per Rule 5.
 
 **Do not jump ahead** to taxonomy design (Phase 3) or schema (Phase 4). The build order is sacred — see `CLAUDE.md` and `FUTURE_WORK.md`.
 
@@ -34,7 +34,8 @@ The **Goal Grounding Protocol** is active for this project. Before any non-trivi
 
 | ID | Date | Status | Summary |
 |---|---|---|---|
-| **[H-001](handoffs/H-001_project_scaffold.md)** | **2026-05-12** | **Closed — Project scaffold built. README, CLAUDE.md, CURRENT.md, PROJECT_OVERVIEW.md, FUTURE_WORK.md, WORKFLOW_PROTOCOL.md, NOMENCLATURE.md, handoffs/_index.md, H-001 itself. Directory structure (src/taxonomy/db/notebooks/docs/handoffs/) created. Data folder split into video/images/text buckets, gitignored.** |
+| **[H-002](handoffs/H-002_phase1_archiver.md)** | **2026-05-12** | **Active — Phase 1 archiver. Extract Release_1.zip + uapvideos.zip, route to media buckets, SHA-256 each item, write tracked manifest at data/manifest.csv. Idempotent.** |
+| [H-001](handoffs/H-001_project_scaffold.md) | 2026-05-12 | Closed — Project scaffold built. README, CLAUDE.md, CURRENT.md, PROJECT_OVERVIEW.md, FUTURE_WORK.md, WORKFLOW_PROTOCOL.md, NOMENCLATURE.md, handoffs/_index.md, H-001 itself. Directory structure (src/taxonomy/db/notebooks/docs/handoffs/) created. Data folder split into video/images/text buckets, gitignored. |
 
 ---
 

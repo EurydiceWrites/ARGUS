@@ -1,22 +1,28 @@
 # CURRENT — Argus
 
-**Last updated:** 2026-05-12 (H-002 opened; Phase 1 archiver in progress)
-**Active handoff:** [handoffs/H-002_phase1_archiver.md](handoffs/H-002_phase1_archiver.md)
+**Last updated:** 2026-05-12 (H-002 closed; Phase 1 complete; Phase 2 next)
+**Active handoff:** none — next opens with Phase 2 (survey)
 
 ---
 
 ## ACTIVE WORK — Read this section first
 
-**Where we are:** Phase 0 scaffold closed. Tranche 1 of the PURSUE release (war.gov 2026-05-08) is on disk as two ZIPs in `data/raw/`: `Release_1.zip` (2.49 GB, 261 entries — 230 PDFs + 28 images + Mac junk) and `uapvideos.zip` (1.33 GB, 28 MP4s). H-002 is the archiver that extracts these to media buckets, hashes everything, and writes a tracked manifest at `data/manifest.csv`.
+**Where we are:** Phase 1 (archive) is complete. Tranche 1 fully archived to media buckets with SHA-256 provenance per item in `data/manifest.csv` (157 rows: 115 PDFs + 14 images + 28 videos). Archiver script (`src/phase1_archive.py` v1.0.0) is idempotent. Pre-extraction inventory counts were inflated by `__MACOSX` Mac metadata; real Tranche 1 is 157 items, not the 287 originally estimated.
 
-**Phase status:** Phase 1 (archive) in progress.
+**Phase status:** Phase 0 (scaffold) ✓. Phase 1 (archive) ✓. Phase 2 (survey) not yet started.
 
 **Concrete resume path:**
 
-1. H-002 is mid-execution. Goal grounding confirmed; handoff doc committed; archiver code to be written next.
-2. Run `src/phase1_archive.py` against `data/raw/Release_1.zip` and `data/raw/uapvideos.zip`.
-3. Verify against H-002 acceptance criteria. Re-run for idempotency check.
-4. Close H-002 with report-back per Rule 5.
+1. Open **H-003** for Phase 2 (survey). Apply Goal Grounding Protocol.
+2. Inventory the archive in detail: file size distribution, PDF page-counts, image dimensions, video durations, filename patterns.
+3. Note what metadata war.gov provides vs. what is absent.
+4. Survey existing UAP classification systems for comparison (Hynek, Vallée, AARO, GEIPAN, SCU). Notes go in `notebooks/`.
+5. **Do not** start Phase 3 (taxonomy design) until survey is complete and reviewed.
+
+**Open items carrying forward:**
+
+- `source_url` for every manifest row is currently the PURSUE page URL, not the direct download URL. Refine in a later handoff once we fetch and parse the war.gov page.
+- Agency derivation is filename-prefix only (catches `DOD_*` videos). Most PDFs/images currently `agency=unknown`. Refinement when we have time to map filename conventions to agencies.
 
 **Do not jump ahead** to taxonomy design (Phase 3) or schema (Phase 4). The build order is sacred — see `CLAUDE.md` and `FUTURE_WORK.md`.
 
@@ -34,8 +40,8 @@ The **Goal Grounding Protocol** is active for this project. Before any non-trivi
 
 | ID | Date | Status | Summary |
 |---|---|---|---|
-| **[H-002](handoffs/H-002_phase1_archiver.md)** | **2026-05-12** | **Active — Phase 1 archiver. Extract Release_1.zip + uapvideos.zip, route to media buckets, SHA-256 each item, write tracked manifest at data/manifest.csv. Idempotent.** |
-| [H-001](handoffs/H-001_project_scaffold.md) | 2026-05-12 | Closed — Project scaffold built. README, CLAUDE.md, CURRENT.md, PROJECT_OVERVIEW.md, FUTURE_WORK.md, WORKFLOW_PROTOCOL.md, NOMENCLATURE.md, handoffs/_index.md, H-001 itself. Directory structure (src/taxonomy/db/notebooks/docs/handoffs/) created. Data folder split into video/images/text buckets, gitignored. |
+| **[H-002](handoffs/H-002_phase1_archiver.md)** | **2026-05-12** | **Closed — Phase 1 archiver. `src/phase1_archive.py` v1.0.0. 157 items archived from Tranche 1 (115 PDFs + 14 images + 28 videos). Idempotent. Manifest at `data/manifest.csv`.** |
+| [H-001](handoffs/H-001_project_scaffold.md) | 2026-05-12 | Closed — Project scaffold built. |
 
 ---
 

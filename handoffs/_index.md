@@ -10,12 +10,13 @@ This index is required reading at session start (per [CLAUDE.md](../CLAUDE.md)) 
 
 | ID | Date | One-line summary |
 |---|---|---|
-| **[H-002](H-002_phase1_archiver.md)** | **2026-05-12** | **Phase 1 archiver. Extract Release_1.zip + uapvideos.zip from data/raw/, route to video/images/text buckets, SHA-256 every item, write tracked manifest at data/manifest.csv. Idempotent. Cataloging Tranche_1 (286 items from ZIPs) + Tranche_0_manual (1 pre-existing PDF). source_url defaults to PURSUE page URL; direct download URLs deferred to later handoff.** |
+| *(none — H-002 closed; next opens with Phase 2 survey)* | | |
 
 ## Closed
 
 | ID | Date | One-line summary |
 |---|---|---|
+| [H-002](H-002_phase1_archiver.md) | 2026-05-12 | Phase 1 archiver. `src/phase1_archive.py` v1.0.0 extracts Release_1.zip + uapvideos.zip, routes to video/images/text buckets, SHA-256s each item, writes tracked manifest at `data/manifest.csv`. Idempotent (idempotency bug in manual-catalog pass caught and fixed during close). Final Tranche_1 inventory: **157 items** (115 PDFs + 14 images + 28 videos). Pre-extraction count was inflated by __MACOSX AppleDouble mirrors; real release is much smaller. Manually-downloaded PDF subsumed into Tranche_1 (byte-identical to a ZIP entry). |
 | [H-001](H-001_project_scaffold.md) | 2026-05-12 | Project scaffold. README, CLAUDE.md, CURRENT.md, PROJECT_OVERVIEW.md, FUTURE_WORK.md, WORKFLOW_PROTOCOL.md, NOMENCLATURE.md, handoffs/_index.md, H-001 itself. Directory structure (src/taxonomy/db/notebooks/docs/handoffs/) created. Data folder split into video/images/text buckets, gitignored. Working protocol imported from Anomaly Taxonomy and adapted for media-archival domain. |
 
 ---

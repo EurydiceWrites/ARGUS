@@ -3,7 +3,7 @@
 **Date:** 2026-05-12
 **Decided in:** Eurydice chat (post-H-001 scaffold close)
 **Author:** Eurydice + Claude Code (Opus 4.7)
-**Status:** Active
+**Status:** Closed (2026-05-12, same session)
 
 ---
 
@@ -137,3 +137,53 @@ Manifest schema:
 - Idempotency confirmation: re-running the script produced zero new manifest rows.
 - Git commit hash of the close commit.
 - Concrete next step (H-003).
+
+---
+
+## Closure (appended 2026-05-12)
+
+### Pre-extraction inventory was wrong
+
+The chat-session inventory done before this handoff opened (`zipfile` listing of Release_1.zip) reported 230 PDFs / 16 PNGs / 12 JPGs / 2 unknown / 1 .DS_Store = 261 entries. That count included `__MACOSX/._*` AppleDouble resource forks — Mac metadata that mirrors every real file with a `._` prefix. The archiver correctly filters those.
+
+**Actual Tranche 1 real contents:**
+
+| Source | Media | Count |
+|---|---|---|
+| Release_1.zip | text (PDF) | 115 |
+| Release_1.zip | image (PNG + JPG) | 14 (8 PNG + 6 JPG) |
+| uapvideos.zip | video (MP4) | 28 |
+| **Total** | | **157 items** |
+
+The 2 "unknown-extension" files in the original count turned out to be `__MACOSX/._Release_1` and `Release_1/.DS_Store` — both Mac metadata, correctly skipped.
+
+### Collisions
+
+One file collision occurred: `Release_1/18_100754_ General 1946-7_Vol_2.pdf` collided with the manually-downloaded `18_100754_ general 1946-7_vol_2.pdf` already in `data/raw/text/`. Hashes matched (`85d659d6b220...`) — same bytes, different capitalization in filename. Resolved by deleting the manual orphan and dropping the `Release_1__` collision-prefix from the extracted file's name. Manifest row updated to reflect canonical Tranche_1 provenance.
+
+The manually-downloaded PDF is therefore subsumed into Tranche_1; **`Tranche_0_manual` ended up containing zero items.** This is correct — the manual download was just an early-fetch of a file that the official release also includes.
+
+### Idempotency
+
+First run produced 157 new rows. The follow-up re-run produced **0 new rows**, file counts unchanged. Idempotency confirmed.
+
+A bug was caught during the idempotency check: the `catalog_manual_items` function originally used `(source_archive, internal_path)` as the dedup key, which never matched ZIP-extracted files on re-run (because they had different key shapes). The second run re-cataloged 157 items as `Tranche_0_manual`. Fix: dedupe by SHA-256 hash against the prior manifest. The manifest was rolled back to 157 rows after the fix. Then a third run confirmed 0-new-rows idempotency.
+
+### Acceptance criteria (revised against real Tranche 1 size)
+
+- [x] `data/raw/video/` contains exactly 28 `.mp4` files.
+- [x] `data/raw/images/` contains exactly 14 image files (8 PNG + 6 JPG). (Revised from 28; original number reflected __MACOSX inflation.)
+- [x] `data/raw/text/` contains exactly 115 `.pdf` files. (Revised from 231.)
+- [x] `data/manifest.csv` has exactly 157 rows.
+- [x] Every manifest row has a non-empty `sha256` and `byte_size > 0`.
+- [x] Re-running the script produces zero new rows (idempotency).
+- [x] No file in `data/raw/` buckets without a manifest row.
+
+### Output (final)
+
+- `src/phase1_archive.py` (v1.0.0) — the archiver script.
+- `data/manifest.csv` — 157 rows, all Tranche_1.
+- `data/raw/video/` — 28 MP4s.
+- `data/raw/images/` — 14 images.
+- `data/raw/text/` — 115 PDFs.
+- `logs/phase1_archive_<timestamp>.log` — three run logs (initial, idempotency-bug, post-fix idempotency confirmed). Logs are gitignored.

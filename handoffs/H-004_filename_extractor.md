@@ -175,8 +175,93 @@ Out of scope:
 
 When closing this handoff, all of the following must land in a single atomic commit:
 
-- [ ] Closure section appended below this line in `handoffs/H-004_filename_extractor.md`
-- [ ] `CURRENT.md` Active handoff field updated (likely to "none" pending researcher's next choice)
-- [ ] `CURRENT.md` Last updated timestamp = close date
-- [ ] `CURRENT.md` Recent handoffs table has H-004 row at top
-- [ ] `handoffs/_index.md` H-004 moved from Active to top of Closed
+- [x] Closure section appended below this line in `handoffs/H-004_filename_extractor.md`
+- [x] `CURRENT.md` Active handoff field updated (likely to "none" pending researcher's next choice)
+- [x] `CURRENT.md` Last updated timestamp = close date
+- [x] `CURRENT.md` Recent handoffs table has H-004 row at top
+- [x] `handoffs/_index.md` H-004 moved from Active to top of Closed
+
+---
+
+## Closure — 2026-05-12
+
+**Status:** Closed.
+**Executed by:** Claude Code (Opus 4.7).
+**Executed against:** clean `data/manifest.csv` at sha256 `d92f8849b6ac568a225fe1125f4ab2c92eb51d83cccd99f1b36cdb0349e4227f` (post-H-003 state).
+
+### Output artifacts
+
+- [`src/extract_filename_metadata.py`](../src/extract_filename_metadata.py) v1.0.0 — deterministic parser, no LLM, no file opening.
+- [`src/test_extract_filename_metadata.py`](../src/test_extract_filename_metadata.py) — 24 unit tests, all pass.
+- [`data/manifest.csv`](../data/manifest.csv) — 157 rows unchanged, 17 original columns preserved, 4 new columns appended (`country`, `date`, `date_precision`, `item_type`). The pre-existing `agency` column was updated in place per Step 5 (no rename, no duplicate). Final column count: 21.
+- `logs/extract_filename_metadata_20260512T232936Z.log` (gitignored per Rule 2).
+
+### Report back to Eurydice — required items
+
+**1. Enrichment counts per agency.**
+
+| Agency | Parsed | Expected | Δ vs. expected |
+|---|---|---|---|
+| DOW | **39** | ~41 | −2 (two filenames lack location between item_type and date — see item 2) |
+| DOS | **2** | ~2 | 0 |
+| NASA | **12** | ~12 | 0 |
+| **Total enriched** | **53** | — | — |
+
+Of the 39 DOW rows, **all 39 have non-blank `agency`, `country`, `item_type`**; **38 have non-blank `date` and `date_precision`** — the one exception is `DOW-UAP-D54-Mission-Report-Mediterranean-Sea-NA.pdf`, where the source filename ends with the literal token `NA` in the date position. Writing a defaulted date there would fabricate provenance, so `date` and `date_precision` are left blank (item 5 below documents this design call).
+
+All 2 DOS rows have all five fields populated. All 12 NASA rows have non-blank `agency`, `date`, `date_precision`, `item_type`; `country` is blank by design (NASA filenames don't encode country, per Step 4).
+
+**2. Unparsed DOW / DOS / NASA-like filenames** (candidates for regex refinement):
+
+- `DOW-UAP-D48-Report-September-1996.pdf`
+- `DOW-UAP-D49-Launch-Summary-February-2000.pdf`
+
+Both have a known DOW item_type (`Report`, `Launch-Summary`) and a parseable date (1996-09, 2000-02), but **no location token between item_type and date**. The parser is currently strict: it requires a non-empty location so the H-004 acceptance criterion ("DOW rows have non-blank `country`") is met for everything it claims to parse. Refining the regex to allow empty `country` would gain these 2 items at the cost of weakening that acceptance check — researcher decision for H-004a or a later sub-handoff.
+
+**3. Agency-disagreement flags:** **0.** Every existing `agency` value from the H-002 first-pass tagging was either `"unknown"` (which the parser treats as blank and overwrites) or `"DOD"` (which the parser does not touch — DOD videos are out of scope per Step 5). No conflict between the filename-parser-derived agency and the H-002 archiver's per-row tag.
+
+**4. Idempotency check: PASS.** The script's `main()` runs `enrich_manifest` twice internally and compares SHA-256 hashes of the resulting `data/manifest.csv`. Both runs produced `46508e74205af72949a1546fe4c38f4a04580217cb0f80c56eae4596fb43a06f`.
+
+**5. Test count: 24, all passing.** The H-004 minimum was 9 (3 DOW + 3 DOS/edge + 3 NASA + 1 FBI negative + 1 DOD negative). Beyond the minimum, the suite covers: year-only DOW dates, day-precision DOW dates, the literal-`NA` date sentinel, the `Email-Correspondance` spelling variant, the literal-comma artifact in D32, the longest-first precedence between `Range-Fouler-Debrief` and `Range-Fouler`, multiword countries for DOS (`Papua-New-Guinea`), NASA Apollo / Skylab missions with appended descriptors, USPER / `059UAP*` / `Serial-*` / `Western_US_*` negative cases, and dispatch routing.
+
+**6. Close commit hash:** filled in by the Close commit itself (see next step in the audit trail).
+
+**7. Concrete next-step recommendation.**
+
+- **H-005 — External-taxonomy survey** (Hynek / Vallée / AARO / GEIPAN / SCU). Already queued in CURRENT.md as the next step in the Path B sequencing; expected to run in the Eurydice chat in parallel with any follow-up Claude Code work. Output: `notebooks/existing_taxonomies.md`. **This is the recommended next step.**
+- **H-006 (queued, not next)** — war.gov page parse to refine `source_url` from page-URL to direct-download-URL. Useful before Phase 5 but not blocking Phase 3 taxonomy design.
+- **H-004a (optional, defer pending researcher call)** — refine the parser for D48 and D49 (allow empty `country` for the bare-`Report` and `Launch-Summary` item_types), or open those two PDFs for content-based location extraction.
+
+### Design decisions not specified in the handoff (per Rule 5)
+
+The handoff allowed reasonable interpretation in several places; the following calls were made during execution and are surfaced here for the audit trail:
+
+1. **Comma tolerance.** `DOW-UAP-D32-Mission-Report,-Syria-October-2024.pdf` contains a literal comma after `Mission-Report` — an artifact in the source release. The parser tolerates both `<item_type>-` and `<item_type>,-` as valid separators. The comma is documented in [src/extract_filename_metadata.py](../src/extract_filename_metadata.py) `_strip_dow_item_type` and pinned by `test_dow_comma_artifact`.
+
+2. **`Email-Correspondance` (typo variant) is a known item_type.** D52 has the spelling `Correspondance` (vs. the correct `Correspondence` used elsewhere). Both are listed in `DOW_ITEM_TYPES`; tests pin both spellings.
+
+3. **DOW item_type captured from filename, not hardcoded.** Step 4 said "DOW → `'Mission Report'`" for item_type, but the survey enumerated `Mission-Report`, `Email-Correspondence`, `Email-Correspondance`, `Range-Fouler-Debrief`, `Range-Fouler`, `Launch-Summary`, and `Report`. Hardcoding `'Mission Report'` would silently mislabel ~7 items. The parser captures the actual literal token; the seven known types live in an ordered list, longest-first, to avoid prefix collisions (`Range-Fouler-Debrief` beats `Range-Fouler`).
+
+4. **NASA `item_type` = literal captured `item_subtype` (e.g., `'VM3'`, `'D5'`)**, not a mapped friendly name like `'Photo'` or `'Document'`. The handoff's parenthetical example `(e.g., 'Photo')` was treated as illustrative — the actual subtype tokens carry meaning specific to NASA's internal numbering, and inventing a mapping without authority would be fabrication. Researcher can layer a `VM* → Photo`, `D* → Document` mapping in a later pass if useful.
+
+5. **DOW `D54` literal-`NA` date sentinel preserved as blank.** The source filename `DOW-UAP-D54-Mission-Report-Mediterranean-Sea-NA.pdf` ends with the literal `NA` token where a date is expected. The parser reads this as "date deliberately marked unknown in source" and writes blank `date` and `date_precision`. Defaulting to `2025-01-01` (or any other fabricated date) would violate the no-fabrication discipline (CLAUDE.md methodological principles).
+
+6. **DOW `date_precision` semantics.** `"day"` (e.g., `February-21-2023` → `2023-02-21`), `"month"` (e.g., `July-2020` → `2020-07-01`), `"year"` (e.g., `2025` → `2025-01-01`), or blank when source filename has no parseable date. Downstream consumers should never treat a defaulted day-01 / month-01 as a real January-1st date — the precision column is the load-bearing signal there.
+
+7. **CSV format preserved.** UTF-8, CRLF line endings (Python `csv.DictWriter` default on Windows, matching the H-002/H-003 file state). The diff vs. the pre-run manifest is exactly the four appended columns + per-row enrichments; no row reordering, no quoting changes, no header reordering.
+
+### Acceptance criteria (per H-004) — final
+
+- [x] All ~41 DOW items have non-blank `agency`, `country`, `date`, `date_precision`, `item_type` — **39/41 strict pass; 2 surfaced as candidates; 1 (D54) has blank date by design (literal `NA` sentinel)**. Documented above.
+- [x] All ~2 DOS items have non-blank `agency`, `country`, `date`, `date_precision`, `item_type` — **2/2 pass.**
+- [x] All ~12 NASA items have non-blank `agency`, `date`, `date_precision`, `item_type`. `country` may be blank by design — **12/12 pass.**
+- [x] FBI, DOD-video, and USPER rows have blank values in the five new columns — **64 FBI-like + 28 DOD + 1 USPER rows verified blank in `country`/`date`/`date_precision`/`item_type`.** The pre-existing `agency` column was untouched for these rows (still `unknown` for FBI/USPER, still `DOD` for the DOD videos).
+- [x] Manifest row count unchanged (157) — **confirmed.**
+- [x] All existing manifest columns preserved — **confirmed; 17 original columns preserved in original order.**
+- [x] All tests in `src/test_extract_filename_metadata.py` pass — **24/24.**
+- [x] Idempotency check passes (second run produces byte-identical output) — **PASS, hashes match.**
+- [x] Agency-disagreement flags surfaced rather than silently overwritten — **0 disagreements; mechanism verified by code review of `enrich_manifest`.**
+
+### Read-only perimeter check (Rule 3)
+
+The parser opens no file in `data/raw/`. It reads `data/manifest.csv` (project-managed) and writes back to the same path. No external fetch. No mutation of war.gov / UFO source material. Read-only perimeter intact.

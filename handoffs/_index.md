@@ -10,7 +10,7 @@ This index is required reading at session start (per [CLAUDE.md](../CLAUDE.md)) 
 
 | ID | Date | One-line summary |
 |---|---|---|
-| *(none — H-003 closed; next opens with external-taxonomy survey or war.gov page parse)* | | |
+| [H-004](H-004_filename_extractor.md) | 2026-05-12 | Open — Filename metadata extractor. Parses DOW/DOS/NASA filename conventions (per H-003 findings) into five new manifest columns (`agency`, `country`, `date`, `date_precision`, `item_type`). Path B v1 prep work. Methodological context (incident-as-unit, two-tier schema, Path B sequencing) baked into the handoff. Claude Code to execute. |
 
 ## Closed
 

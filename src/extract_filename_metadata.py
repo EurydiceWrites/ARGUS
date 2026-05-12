@@ -138,10 +138,15 @@ def _strip_dow_item_type(rest: str) -> tuple[str, str] | None:
     """Strip a known DOW item_type prefix off the left of `rest`.
 
     Returns (item_type, remainder) or None if no known prefix matches.
+    Per H-004a: an exact match (remainder == item_type, no separator)
+    returns an empty location; the caller treats that as "filename
+    omits location" rather than as a parse failure.
     """
     upper = rest.upper()
     for item_type in DOW_ITEM_TYPES:
         item_upper = item_type.upper()
+        if upper == item_upper:
+            return item_type, ""
         # D32 has "Mission-Report,-Syria-..." — tolerate the comma artifact
         # observed in the source release. The canonical separator is "-".
         for sep in ("-", ",-"):
@@ -164,9 +169,9 @@ def parse_dow(filename: str) -> dict | None:
         return None
     item_type, location = extracted
 
-    if not location:
-        return None
-
+    # H-004a: blank location is allowed (e.g. D48 "Report-September-1996",
+    # D49 "Launch-Summary-February-2000"). Source filename simply omits a
+    # location token; do not fabricate one.
     return {
         "agency": "DOW",
         "country": location,

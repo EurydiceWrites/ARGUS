@@ -115,17 +115,36 @@ class TestDOWEdgeCases(unittest.TestCase):
         self.assertEqual(result["item_type"], "Range-Fouler")
         self.assertEqual(result["country"], "Arabian-Sea")
 
-    def test_dow_launch_summary(self):
+    def test_dow_launch_summary_blank_country(self):
+        # H-004a: source filename has no location between item_type and
+        # date. Parser yields blank country rather than failing the parse;
+        # date and item_type are still extracted.
         result = parse_dow("DOW-UAP-D49-Launch-Summary-February-2000.pdf")
-        # No location between item_type and date — single-token edge case
-        # Currently treated as a failed parse (location empty); this confirms
-        # that behavior. A future refinement could allow empty location.
-        self.assertIsNone(result)
+        self.assertEqual(
+            result,
+            {
+                "agency": "DOW",
+                "country": "",
+                "date": "2000-02-01",
+                "date_precision": "month",
+                "item_type": "Launch-Summary",
+            },
+        )
 
-    def test_dow_bare_report(self):
+    def test_dow_bare_report_blank_country(self):
+        # H-004a: same shape as Launch-Summary above; "Report" is a known
+        # item_type and "September-1996" parses as a month/year date.
         result = parse_dow("DOW-UAP-D48-Report-September-1996.pdf")
-        # Same single-token edge case as above
-        self.assertIsNone(result)
+        self.assertEqual(
+            result,
+            {
+                "agency": "DOW",
+                "country": "",
+                "date": "1996-09-01",
+                "date_precision": "month",
+                "item_type": "Report",
+            },
+        )
 
 
 class TestDOS(unittest.TestCase):

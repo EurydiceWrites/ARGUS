@@ -1,7 +1,7 @@
 # CURRENT — Argus
 
-**Last updated:** 2026-05-12 (H-005 closed; external-taxonomy survey complete; Phase 3 unblocked)
-**Active handoff:** None — Phase 3 (taxonomy design) is now unblocked and is the recommended next step
+**Last updated:** 2026-05-12 (H-005 closed; observe-first, reconcile-later method committed for Phase 3; Phase 3 unblocked)
+**Active handoff:** None — Phase 3 (taxonomy design) is now unblocked and is the recommended next step. Method: observe-first, reconcile-later (see Phase 3 step below).
 
 ---
 
@@ -29,7 +29,7 @@ The Phase 4 schema will be **two-tier**: `files` and `incidents` joined by `file
 
 **Concrete resume path:**
 
-1. **Phase 3 — Taxonomy design** (now unblocked, recommended next step). With H-004 + H-004a closed (55 clean cases enriched) and H-005 closed (external-taxonomy vocabulary in hand at `notebooks/existing_taxonomies.md`), read the 55 DOW/DOS/NASA cases as incidents, observe patterns, draft taxonomy v1 grounded in the actual archive. The four open questions in the H-005 notebook synthesis are design prompts to engage with, not constraints.
+1. **Phase 3 — Taxonomy design** (now unblocked, recommended next step). **Method: observe-first, reconcile-later** — read source material directly (start with the 55 clean DOW/DOS/NASA cases; the 28 DOD videos are also fair game for informal viewing) and record observations in `notebooks/observations.md` without imposing existing frameworks. Reconcile against existing-taxonomy literature only AFTER patterns emerge from the data. The existing-taxonomies notebook at `notebooks/existing_taxonomies.md` and the primary-source reading list at `notebooks/reading_list_taxonomies.md` are **comparison ground, not prerequisite**. This aligns with CLAUDE.md's principle that the classification system should emerge from observed patterns, not be imposed in advance. The four open questions in the H-005 synthesis are design prompts to engage with, not constraints.
 2. **Phase 4 — Schema.** Implement the two-tier model in SQLite (`files`, `incidents`, `file_incidents`, `taxonomy_codes`, `incident_codes`).
 3. **Phase 5 v1 — Index and classify the clean subset.** End of Path B v1.
 4. **Later (post-v1):** H-006 = war.gov page parse (refines `source_url`); FBI case-file extraction with LLM assistance + researcher review; DOD video segmentation. Taxonomy versions to v2 and beyond as messier data lands.

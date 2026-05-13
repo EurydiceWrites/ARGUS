@@ -130,3 +130,23 @@ External sources used: training-knowledge primary sources for historical systems
 - `handoffs/_index.md` — H-005 added to top of Closed; Active section reset to none.
 
 All in a single atomic close commit per Rule 1.
+
+---
+
+## Post-close edits (audit trail, appended 2026-05-12)
+
+After this handoff closed, the following session work touched H-005's deliverable and the surrounding Phase 3 prep work. Recorded here so the audit trail is complete; H-005's closed status is unchanged.
+
+### Edits to `notebooks/existing_taxonomies.md`
+
+- "Methodological note on AARO" added to section 4. AARO releases are treated as primary-source data, usable as raw material for independent analysis; AARO classifications are **not adopted as ground truth**.
+- "Methodological asymmetry — AARO" subsection added to the synthesis. AARO is treated differently from the other four systems — as a data source under critical analysis, not a classification source to draw from.
+
+### Adjacent files created in the same session (downstream of H-005, not part of its original scope)
+
+- `notebooks/reading_list_taxonomies.md` — primary-source reading list for the five surveyed systems. Produced after the researcher elected to read primaries directly rather than rely on the survey synthesis. The H-005 notebook is explicitly framed in the reading list as "a rough starting map" rather than a vetted reference.
+- `notebooks/observations.md` — working notebook for the researcher's observe-first Phase 3 prep.
+
+### Phase 3 method committed (researcher decision)
+
+The researcher has set Phase 3 method to **observe-first, reconcile-later**: read source material directly and record observations without pre-imposed framework; reconcile against existing classification systems only afterward. This inverts H-005's original "vocabulary before invention" framing. The existing-taxonomies notebook becomes **comparison ground, not prerequisite**. The shift is consistent with the CLAUDE.md principle that "the classification system is supposed to emerge from observed patterns, not be imposed in advance."

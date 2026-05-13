@@ -1,7 +1,7 @@
 # CURRENT — Argus
 
-**Last updated:** 2026-05-12 (H-004 + H-004a closed; 55 manifest rows enriched; H-005 queued as next)
-**Active handoff:** None — H-005 (external-taxonomy survey) is the next recommended step, pending researcher's go-ahead
+**Last updated:** 2026-05-12 (H-005 closed; external-taxonomy survey complete; Phase 3 unblocked)
+**Active handoff:** None — Phase 3 (taxonomy design) is now unblocked and is the recommended next step
 
 ---
 
@@ -25,17 +25,16 @@ The Phase 4 schema will be **two-tier**: `files` and `incidents` joined by `file
 
 3. **All NASA `country`** — NASA filenames don't encode country (`mission` is captured but `country` stays blank by design per H-004 Step 4).
 
-**Phase status:** Phase 0 ✓. Phase 1 ✓. Phase 2 ✓. Phase 3 prep partial (unit decision settled; H-004 + H-004a closed; H-005 still owed). Phase 3 design (taxonomy itself) gated by H-005 (external-taxonomy survey, to run in Eurydice chat) and the Phase 3 reading-as-cases pass.
+**Phase status:** Phase 0 ✓. Phase 1 ✓. Phase 2 ✓. Phase 3 prep ✓ (unit decision settled; H-004 + H-004a closed with 55 rows enriched; H-005 closed with `notebooks/existing_taxonomies.md` produced). Phase 3 design (taxonomy itself) is now unblocked.
 
 **Concrete resume path:**
 
-1. **H-005 — External-taxonomy survey** (next). Hynek / Vallée / AARO / GEIPAN / SCU, in Eurydice chat. Output: `notebooks/existing_taxonomies.md`. Desk research, not script work — shapes the vocabulary Phase 3 design will draw from. **This is the recommended next step.**
-2. **Phase 3 — Taxonomy design.** Once H-005 produces the external-taxonomy reference, read the clean 55 DOW/DOS/NASA cases (using the filename-derived metadata as the index), extract incidents, observe patterns, draft taxonomy v1 grounded in the actual archive.
-3. **Phase 4 — Schema.** Implement the two-tier model in SQLite.
-4. **Phase 5 v1 — Index and classify the clean subset.** End of Path B v1.
-5. **Later (post-v1):** war.gov page parse (refines `source_url`); FBI case-file extraction with LLM assistance + researcher review; DOD video segmentation. Taxonomy versions to v2 and beyond as messier data lands.
+1. **Phase 3 — Taxonomy design** (now unblocked, recommended next step). With H-004 + H-004a closed (55 clean cases enriched) and H-005 closed (external-taxonomy vocabulary in hand at `notebooks/existing_taxonomies.md`), read the 55 DOW/DOS/NASA cases as incidents, observe patterns, draft taxonomy v1 grounded in the actual archive. The four open questions in the H-005 notebook synthesis are design prompts to engage with, not constraints.
+2. **Phase 4 — Schema.** Implement the two-tier model in SQLite (`files`, `incidents`, `file_incidents`, `taxonomy_codes`, `incident_codes`).
+3. **Phase 5 v1 — Index and classify the clean subset.** End of Path B v1.
+4. **Later (post-v1):** H-006 = war.gov page parse (refines `source_url`); FBI case-file extraction with LLM assistance + researcher review; DOD video segmentation. Taxonomy versions to v2 and beyond as messier data lands.
 
-**Do not jump ahead** to taxonomy design (Phase 3) or schema (Phase 4) until H-005 produces the external-taxonomy reference.
+**Phase 3 is now ready to open.** Don't jump ahead to schema (Phase 4) or indexing (Phase 5) until Phase 3 produces taxonomy v1.
 
 ---
 
@@ -51,6 +50,7 @@ The **Goal Grounding Protocol** is active for this project. Before any non-trivi
 
 | ID | Date | Status | Summary |
 |---|---|---|---|
+| [H-005](handoffs/H-005_external_taxonomy_survey.md) | 2026-05-12 | Closed — External-taxonomy survey. `notebooks/existing_taxonomies.md` produced (~2,000-word reference covering Hynek, Vallée, AARO, GEIPAN, SCU). Synthesis identifies recurring axes (distance/proximity, physical evidence, occupants, anomalous flight, resolution status) and unique axes (reality-transformation, data-quality grading, military-specific behaviors). 4 open questions carried forward for Phase 3 design. Phase 3 now unblocked. |
 | [H-004a](handoffs/H-004a_blank_country.md) | 2026-05-12 | Closed — Parser relaxed to accept blank `country` for known DOW item_types with parseable dates. D48 + D49 now enriched. **0** unparsed DOW/DOS/NASA-like filenames remain; 55 of 157 rows enriched in total. |
 | [H-004](handoffs/H-004_filename_extractor.md) | 2026-05-12 | Closed — Filename metadata extractor. 39 DOW + 2 DOS + 12 NASA rows enriched with `country`, `date`, `date_precision`, `item_type`. 24 unit tests pass. Idempotency byte-identical. 2 candidates surfaced for future refinement (D48, D49 lack filename location) — addressed in H-004a. 0 agency disagreements. |
 | [H-003](handoffs/H-003_phase2_survey.md) | 2026-05-12 | Closed — Phase 2 technical survey. Manifest enriched (page counts / dimensions / durations) for all 157 items. Filename analysis revealed 6+ agency conventions; ~80 PDFs have machine-extractable date+location+item-type from filenames. |

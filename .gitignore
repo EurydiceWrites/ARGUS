@@ -3,6 +3,11 @@
 data/raw/
 data/cache/
 
+# H-005.5 detour artifacts: extracted frames + diagnostic outputs
+# Re-creatable by running src/video_motion_detect.py against data/raw/video/
+frames/
+outputs/
+
 # Python
 __pycache__/
 *.py[cod]

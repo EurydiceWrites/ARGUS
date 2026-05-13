@@ -1,7 +1,16 @@
 # CURRENT — Argus
 
-**Last updated:** 2026-05-12 (H-005 closed; observe-first, reconcile-later method committed for Phase 3; Phase 3 unblocked)
+**Last updated:** 2026-05-13 (H-005.5 closed — exploratory video-motion detour, no build-order change; Phase 3 still unblocked)
 **Active handoff:** None — Phase 3 (taxonomy design) is now unblocked and is the recommended next step. Method: observe-first, reconcile-later (see Phase 3 step below).
+
+> **Note on H-005.5:** A low-rigor exploratory detour ran a frame-rate
+> motion-detection pipeline on three Tranche 1 videos. It found a
+> near-linear small-object track in DOD_111688809 (probably the dot the
+> researcher saw by eye), was pipeline-limited on DOD_111689022 (camera
+> sky-to-coastline tilt + lens flare), and confirmed a null result on
+> DOD_111689759. **No taxonomy, schema, or manifest changes.** See
+> [handoffs/H-005.5_video_motion_detour.md](handoffs/H-005.5_video_motion_detour.md)
+> and `outputs/video_analysis/`.
 
 ---
 
